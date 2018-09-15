@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 18:28:36 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/06 05:16:39 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/15 07:15:26 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_striter(char *s, void (*f)(char *));
 void				ft_lstadd(t_list **alst, t_list *new);
+void				ft_lstafter(t_list *alst, t_list *new);
 void				*ft_memset(void *dest, int sym, size_t len);
 void				*ft_memchr(const void *arr, int c, size_t n);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));

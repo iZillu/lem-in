@@ -6,7 +6,7 @@
 #    By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/24 05:04:27 by hmuravch          #+#    #+#              #
-#    Updated: 2018/08/20 04:27:44 by hmuravch         ###   ########.fr        #
+#    Updated: 2018/09/15 07:14:14 by hmuravch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC =	ft_atoi.c ft_isdigit.c ft_strcat.c ft_strdup.c ft_strncpy.c ft_isalnum.c \
 		ft_itoa_base.c ft_strjoin_free.c ft_strlen_int.c my_caster.c my_putchar_unicode.c \
 		my_missing_options.c print_flags_for_i.c print_flags_for_x.c print_flags_for_u.c \
 		print_flags_for_o.c print_flags_for_cap_s.c print_s_o.c print_d_c_p.c \
-		print_percent_u_x.c get_next_line.c ft_is_whitespace.c
+		print_percent_u_x.c get_next_line.c ft_is_whitespace.c ft_lstafter.c
 
 OBJ = $(SRC:.c=.o)
 
