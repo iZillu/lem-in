@@ -6,11 +6,13 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:06:06 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/16 06:10:16 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/16 22:54:04 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 void	error_manager(int error)
 {
@@ -22,10 +24,11 @@ void	error_manager(int error)
 	exit(1);
 }
 
-int	main(void)
+int		main(int ac, char **av)
 {
 	t_lm	lm;
 
+	dup2(open(av[1], O_RDONLY), 0);
 	ft_bzero(&lm, sizeof(lm));
 	parsing(&lm);
 	// algorithm;

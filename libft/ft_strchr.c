@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/27 19:39:41 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/16 03:03:08 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/16 22:09:06 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	unsigned char	to_find;
 
+	if (s == NULL)
+		return (NULL);
 	to_find = (unsigned char)c;
 	while (*s)
 	{

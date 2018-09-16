@@ -6,90 +6,47 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:37:51 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/16 08:12:41 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/16 23:00:38 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-// static inline t_rm	**get_last_room(t_rm **room)
-// {
-// 	t_rm	**tmp;
-
-// 	*tmp = lm->start;
-// 	while (*tmp)
-// 	{
-// 		// write(1, "aaa\n", 4);
-// 		// printf("name is %s\n", tmp->name);
-// 		*tmp = (*tmp)->next;
-// 	}
-// 	return (tmp);
-// }
-
-static inline t_rm	*read_room(char *line, int *index, t_lm *lm)
+static inline t_rm	**get_last_room(t_lm *lm)
 {
-	// t_rm	*room;
-	char	*x = NULL; 
-	char	*y = NULL;
-	size_t	len;
-	t_rm	*cur;
+	t_rm	*tmp;
 
-	// room = get_last_room(lm);
-	// write(1, "AAA\n", 4);
-	// while (room)
-	// {
-	// 	write(1, "asd\n", 4);
-	// 	room = room->next;
-	// }
-	// if (lm->start)
-	// {
-	// 	lm->start = malloc(sizeof(t_rm));
-	// 	lm->room = lm->start;
-	// }
-	// else
-	// {
-	// 	cur = lm->start;
-	// 	while (cur)
-	// 	{
-	// 		cur = cur->next;
-	// 	}
-	// 	lm->room = cur;
-	// 	lm->room = malloc(sizeof(t_rm));
-	// }
-	// printf("%p\n", lm->room);
-	// printf("%p\n", lm->room);
-	lm->room = ft_memalloc(sizeof(t_rm));
-	ft_strchr(line, ' ') ? x = ft_strchr(line, ' ') + 1 : false;
-	// write(1, "ASD\n", 4);
-	if (x)
-		ft_strchr(x, ' ') ? y = ft_strchr(x, ' ') + 1 : false;
-	
-	// if (ft_strchr(line, '-') && !ft_strchr(line, ' '))
-	// {
-	// 	write(1, "AAA\n", 4);
-	// 	while (lm->start)
-	// 	{
-	// 		write(1, "SUKA\n", 5);
-	// 		// printf("name is %s\n", lm->start->name);
-	// 		lm->start = lm->start->next;
-	// 	}
-	// }
-	len = ft_strlen(line);
-	(x == NULL) || (!ft_isdigit(x[0])) ? error_manager(5) : false;
-	(y == NULL) || (!ft_isdigit(y[0])) ? error_manager(5) : false;
-	line[x - line - 1] = '\0'; 
-	lm->room->name = line;
-	// printf("NAME %s\n", lm->room->name);
-	// write(1, lm->room->name, 6);
-	lm->room->x = ft_atoi(x);
-	lm->room->y = ft_atoi(y);
-	if ((ft_strlen_int(lm->room->x) + ft_strlen_int(lm->room->y) + 2
-		+ ft_strlen(lm->room->name)) != len)
-		error_manager(6);
-	*index == 1 ? lm->room->is_start = 1 : false;
-	*index == 2 ? lm->room->is_end = 1 : false;
+	if (lm->start == NULL)
+		return (&lm->start);
+	tmp = lm->start;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (&tmp->next);
+}
+
+static inline void	read_room(char *line, int *index, t_lm *lm)
+{
+	t_rm **const	cur = get_last_room(lm);
+	const size_t	len = ft_strlen(line);
+	char			*x;
+	char			*y;
+
+	*cur = ft_memalloc(sizeof(t_rm));
+	x = ft_strchr(line, ' ');
+	if (x != NULL)
+		y = ft_strchr(x + 1, ' ');
+	if (x == NULL || y == NULL || !ft_isdigit(x[1]) || !ft_isdigit(y[1]))
+		error_manager(5);
+	(*cur)->name = line;
+	(*cur)->x = ft_atoi(x);
+	(*cur)->y = ft_atoi(y);
+	*x = '\0';
+	if ((ft_strlen((*cur)->name) + 2
+	+ ft_strlen_int((*cur)->x) + ft_strlen_int((*cur)->y)) != len)
+		error_manager(8);
+	(*cur)->is_start = (*index == 1);
+	(*cur)->is_end = (*index == 2);
 	*index = 0;
-	return (lm->room);
 }
 
 static inline int	read_hash(char *line)
@@ -129,51 +86,30 @@ static inline void	alloc_ants(char *line, t_lm *lm)
 		error_manager(3);
 }
 
-void	print(t_lm *lm)
-{
-	t_rm *cur = lm->start;
-
-	while (cur)
-	{
-		printf("[$$$$][%s]\n", cur->name);
-		cur = cur->next;
-	}
-}
-
 void				parsing(t_lm *lm)
 {
 	char	*line = NULL;
 	int		index;
 	t_list	*m;
-	int		check = 1;
 
-	// room = malloc(sizeof(t_rm));
-	// room = lm->start;
 	index = 0;
 	alloc_ants(line, lm);	
 	m = lm->map;
 	while ((lm->error = get_next_line(0, &line)) > 0)
 	{
+		m->next = ft_lstnew(line, 0);
+		m = m->next;
 		if (line[0] == '#')
 			index = read_hash(line);
 		else
 		{
-			lm->room = read_room(line, &index, lm);
-			printf("	pervi 		%s\n", lm->room->name);
-			if (check)
-			{
-				lm->start = lm->room;
-				printf("start %s\n", lm->start->name);
-				check--;
-			}
-			printf("%p\n", lm->room);
-			printf("%p\n", lm->start);
-			lm->room = lm->room->next;
-			print(lm);
+			if (ft_strchr(line, ' '))
+				read_room(line, &index, lm);
+			// else
+				// read_link(line, &index, lm);
+			continue ;
 		}
-			// error_manager(1);
-		m->next = ft_lstnew(line, 0);
-		m = m->next;
+
 		free(line);
 	}
 	if (lm->error == -1)
@@ -181,7 +117,7 @@ void				parsing(t_lm *lm)
 	m = lm->map;
 	while (m)
 	{
-		ft_printf("%s\n", m->content);
+		ft_printf("%s", m->content);
 		m = m->next;
 	}
 }

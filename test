@@ -1,10 +1,10 @@
 3
 ##start
-xNAME 1 0
+Arnold 1 0
 ##end
-1 5 0
-2 9 0
-3 13 0
-0-2
-2-3
-3-1
+Vasya 5 0
+Vlad 9 0
+Berton 13 0
+Arnold-Vlad
+Vlad-Berton
+Berton-Vasya
