@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/15 07:30:18 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/16 08:11:15 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,15 @@
 
 # include "libft.h"
 
-typedef	struct	s_room	t_rm;
+typedef	struct	s_room t_rm;
+
+typedef struct		s_links
+{
+	t_rm			*room;
+	struct s_link	*next;
+	
+}					t_link;
+
 typedef	struct	s_room
 {
 	unsigned int	is_empty : 1;
@@ -24,9 +32,9 @@ typedef	struct	s_room
 	int				x;
 	int				y;
 	char			*name;
-	t_rm			*links;
+	t_link			*links;
 	t_rm			*next;
-};
+}						t_rm;
 
 typedef struct	s_ant
 {
@@ -42,7 +50,11 @@ typedef	struct	s_lem_in
 	t_list		*map;
 	t_ant		*head;     //массив муравьёв
 	t_rm		*start;		//лист комнат
+	t_rm		*room;
 	
 }				t_lm;
+
+void			parsing(t_lm *lm);
+void			error_manager(int error);
 
 #endif

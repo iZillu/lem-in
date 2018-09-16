@@ -6,13 +6,13 @@ LIB_PATH =	libft/
 OBJ_PATH =	.obj/
 
 CC =		clang
-CFLAGS =	-Wall -Werror -Wextra
+CFLAGS =	#-Wall -Werror -Wextra
 
 INC_PATH =	includes/
 IFLAGS =	-I $(LIB_PATH)$(INC_PATH) -I $(INC_PATH)
 
-HFILES =	lem-in
-FILES =		validation algorithm
+HFILES =	lem_in
+FILES =		lem_in validation algorithm
 
 LIB =	$(LIB_PATH)libftprintf.a
 

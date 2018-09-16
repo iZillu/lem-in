@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:06:06 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/15 05:15:33 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/16 06:10:16 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	error_manager(int error)
 {
-	ft_putstr_fd("ERROR", 2);
-	// error == -1 ? ft_putstr_fd("ERROR: fail reading", 2) : false;
-	// error == 1 ? ft_putstr_fd("ERROR: invalid line", 2) : false;
+	printf("ERROR %i\n", error);
+	// error ? ft_printf("ERROR: fail reading\n") : false;
+	// error == 1 ? ft_printf("ERROR: invalid line\n") : false;
 	//3
 	//4
-	// exit(1);
+	exit(1);
 }
 
 int	main(void)
