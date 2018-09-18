@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/16 22:36:03 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/18 03:35:40 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef	struct	s_room t_rm;
 typedef struct		s_links
 {
 	t_rm			*room;
-	struct s_link	*next;
+	struct s_links	*next;
 	
 }					t_link;
 
@@ -34,6 +34,7 @@ typedef	struct	s_room
 	char			*name;
 	t_link			*links;
 	t_rm			*next;
+
 }						t_rm;
 
 typedef struct	s_ant
@@ -46,11 +47,10 @@ typedef struct	s_ant
 typedef	struct	s_lem_in
 {
 	int			error;
-	int			ant_ammount;
+	int			ant_amount;
 	t_list		*map;
-	t_ant		*head;     //массив муравьёв
+	t_ant		*head;		//массив муравьёв
 	t_rm		*start;		//лист комнат
-	t_rm		*room;
 	
 }				t_lm;
 

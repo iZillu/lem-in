@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmuravch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 20:43:48 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/04/24 17:44:23 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/18 01:56:20 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 			free(new);
 			return (NULL);
 		}
-		ft_memcpy((new->content), content, content_size);
+		ft_memmove(new->content, content, content_size);
 		new->content_size = content_size;
 	}
 	else

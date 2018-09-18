@@ -6,7 +6,7 @@
 #    By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/24 05:04:27 by hmuravch          #+#    #+#              #
-#    Updated: 2018/09/15 07:14:14 by hmuravch         ###   ########.fr        #
+#    Updated: 2018/09/18 02:52:39 by hmuravch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,9 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@ar -rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
 	@echo "$(OKC)Lib is ready$(NOC)"
+	
 
 %.o: %.c 
 	@gcc $(FLAGS) -c $< -o $@ $(HEADER)
