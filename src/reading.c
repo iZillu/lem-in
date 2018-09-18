@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validation.c                                       :+:      :+:    :+:   */
+/*   reading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/06 05:37:51 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/18 04:03:06 by hmuravch         ###   ########.fr       */
+/*   Created: 2018/09/18 06:25:55 by hmuravch          #+#    #+#             */
+/*   Updated: 2018/09/18 06:39:49 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,64 +24,9 @@ static inline t_rm	**get_last_room(t_rm **poi)
 	return (&tmp->next);
 }
 
-static inline t_link	**get_last_link(t_link **link, t_rm *to_check)
+static inline void	check_validity_of_room(char *line, t_lm *lm, t_rm *cur)
 {
-	t_link			*tmp;
-
-	if (*link == NULL)
-		return (link);
-	tmp = *link;
-	if (to_check == tmp->room)
-		return (NULL);
-	while (tmp->next)
-	{
-		tmp = tmp->next;
-		if (to_check == tmp->room)
-			return (NULL);
-	}
-	return (&tmp->next);
-}
-
-static inline t_rm	*find_room_by_name(char *to_find, t_rm *start)
-{
-	t_rm			*tmp;
-
-	tmp = start;
-	while (tmp)
-	{
-		if (ft_strequ(tmp->name, to_find))
-			return (tmp);
-		tmp = tmp->next;
-	}
-	error_manager(12);
-	return (NULL);
-}
-
-static inline void	read_link(char *line, t_lm *lm)
-{
-	char *const		n1 = line;
-	char *const		n2 = ft_strchr(line, '-') + 1;
-	t_rm 			*room[2];
-	t_link 			**link[2];
-
-	*(n2 - 1) = '\0';
-	if (ft_strequ(n1, n2))
-		return ;
-	room[0] = find_room_by_name(n1, lm->start);
-	room[1] = find_room_by_name(n2, lm->start);
-	link[0] = get_last_link(&room[0]->links, room[1]);
-	link[1] = get_last_link(&room[1]->links, room[0]);
-	if (link[0] == NULL || link[1] == NULL)
-		return ;
-	*link[0] = ft_memalloc(sizeof(t_link));
-	*link[1] = ft_memalloc(sizeof(t_link));
-	(*link[0])->room = room[1];
-	(*link[1])->room = room[0];
-}
-
-static inline void	check_room(char *line, t_lm *lm, t_rm *cur)
-{
-	t_rm	*tmp;
+	t_rm	        *tmp;
 
 	tmp = lm->start;
 	if (*cur->name == 'L' || *cur->name == '#' || ft_strchr(cur->name, '-'))
@@ -96,7 +41,7 @@ static inline void	check_room(char *line, t_lm *lm, t_rm *cur)
 	}
 }
 
-static inline void	read_room(char *line, int *index, t_lm *lm)
+void				read_room(char *line, int *index, t_lm *lm)
 {
 	t_rm **const	cur = get_last_room(&lm->start);
 	const size_t	len = ft_strlen(line);
@@ -112,7 +57,7 @@ static inline void	read_room(char *line, int *index, t_lm *lm)
 	(*cur)->name = line;
 	(*cur)->x = ft_atoi(x);
 	(*cur)->y = ft_atoi(y);
-	check_room(line, lm, *cur);
+	check_validity_of_room(line, lm, *cur);
 	*x = '\0';
 	if ((ft_strlen((*cur)->name) + 2
 	+ ft_strlen_int((*cur)->x) + ft_strlen_int((*cur)->y)) != len)
@@ -122,7 +67,7 @@ static inline void	read_room(char *line, int *index, t_lm *lm)
 	*index = 0;
 }
 
-static inline int	read_hash(char *line)
+int					read_hash(char *line)
 {
 	static int		check = 0;
 	const bool		is_start = (ft_strequ(line, "##start"));
@@ -146,7 +91,7 @@ static inline int	read_hash(char *line)
 	return (0);
 }
 
-static inline void	alloc_ants(char *line, t_lm *lm)
+void				read_ants(char *line, t_lm *lm)
 {
 	const int		ant_num = ft_atoi(line);
 
@@ -156,44 +101,4 @@ static inline void	alloc_ants(char *line, t_lm *lm)
 	lm->ant_amount = ant_num;
 	lm->head = ft_memalloc(ant_num);
 	free(line);
-}
-
-void				print_map(t_lm *lm)
-{
-	t_list	*m;
-
-	m = lm->map;
-	while (m)
-	{
-		ft_printf("%s", m->content);
-		m = m->next;
-	}
-}
-
-void				parsing(t_lm *lm)
-{
-	char	*line;
-	int		index;
-	t_list	**m;
-
-	index = 0;
-	m = &lm->map;
-	while ((lm->error = get_next_line(0, &line)) > 0)
-	{
-		*m = ft_lstnew(line, 0);
-		m = &(*m)->next;
-		if (line[0] == '#')
-			index = read_hash(line);
-		else if (ft_strchr(line, ' '))
-			read_room(line, &index, lm);
-		else if (ft_strchr(line, '-'))
-			read_link(line, lm);
-		else if (lm->ant_amount == 0)
-			alloc_ants(line, lm);
-		else
-			error_manager(lm->error);
-	}
-	if (lm->error == -1)
-		error_manager(lm->error);
-	print_map(lm);
 }

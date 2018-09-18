@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/18 03:35:40 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/18 06:40:24 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ typedef	struct	s_lem_in
 	
 }				t_lm;
 
-void			parsing(t_lm *lm);
+int				read_hash(char *line);
 void			error_manager(int error);
+void			read_room(char *line, int *index, t_lm *lm);
+void			read_ants(char *line, t_lm *lm);
+void			read_link(char *line, t_lm *lm);
 
 #endif

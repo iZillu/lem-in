@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:06:06 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/16 22:54:04 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/18 06:40:23 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,52 @@ void	error_manager(int error)
 	exit(1);
 }
 
+void				print_map(t_lm *lm)
+{
+	t_list	*m;
+
+	m = lm->map;
+	while (m)
+	{
+		ft_printf("%s", m->content);
+		m = m->next;
+	}
+}
+
+void				parsing(t_lm *lm)
+{
+	char	*line;
+	int		index;
+	t_list	**m;
+
+	index = 0;
+	m = &lm->map;
+	while ((lm->error = get_next_line(0, &line)) > 0)
+	{
+		*m = ft_lstnew(line, 0);
+		m = &(*m)->next;
+		if (line[0] == '#')
+			index = read_hash(line);
+		else if (ft_strchr(line, ' '))
+			read_room(line, &index, lm);
+		else if (ft_strchr(line, '-'))
+			read_link(line, lm);
+		else if (lm->ant_amount == 0)
+			read_ants(line, lm);
+		else
+			error_manager(lm->error);
+	}
+	if (lm->error == -1)
+		error_manager(lm->error);
+}
+
 int		main(int ac, char **av)
 {
 	t_lm	lm;
 
-	dup2(open(av[1], O_RDONLY), 0);
+	// dup2(open(av[1], O_RDONLY), 0);
 	ft_bzero(&lm, sizeof(lm));
 	parsing(&lm);
 	// algorithm;
+	print_map(&lm);
 }
