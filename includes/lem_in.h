@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/18 06:40:24 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/24 11:49:18 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ typedef struct		s_links
 	
 }					t_link;
 
+typedef struct		s_que
+{
+	t_rm			*room;
+	struct s_que	*next;
+	
+}					t_q;
+
 typedef	struct	s_room
 {
 	unsigned int	is_empty : 1;
@@ -31,8 +38,9 @@ typedef	struct	s_room
 	unsigned int	is_end : 1;
 	int				x;
 	int				y;
+	int				len;
 	char			*name;
-	t_link			*links;
+	t_link			*link;
 	t_rm			*next;
 
 }						t_rm;
@@ -48,6 +56,7 @@ typedef	struct	s_lem_in
 {
 	int			error;
 	int			ant_amount;
+	int			rib_amount;
 	t_list		*map;
 	t_ant		*head;		//массив муравьёв
 	t_rm		*start;		//лист комнат
@@ -59,5 +68,6 @@ void			error_manager(int error);
 void			read_room(char *line, int *index, t_lm *lm);
 void			read_ants(char *line, t_lm *lm);
 void			read_link(char *line, t_lm *lm);
+void			algorithm(t_lm *lm);
 
 #endif

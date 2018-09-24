@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 06:25:50 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/18 06:40:03 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/20 20:19:46 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ void				read_link(char *line, t_lm *lm)
 		return ;
 	room[0] = find_room_by_name(n1, lm->start);
 	room[1] = find_room_by_name(n2, lm->start);
-	link[0] = get_last_link(&room[0]->links, room[1]);
-	link[1] = get_last_link(&room[1]->links, room[0]);
+	link[0] = get_last_link(&room[0]->link, room[1]);
+	link[1] = get_last_link(&room[1]->link, room[0]);
 	if (link[0] == NULL || link[1] == NULL)
 		return ;
 	*link[0] = ft_memalloc(sizeof(t_link));
 	*link[1] = ft_memalloc(sizeof(t_link));
 	(*link[0])->room = room[1];
 	(*link[1])->room = room[0];
+	lm->rib_amount++;
 }
