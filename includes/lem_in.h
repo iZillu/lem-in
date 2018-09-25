@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/24 11:49:18 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/25 17:48:02 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,7 @@ typedef struct		s_links
 	
 }					t_link;
 
-typedef struct		s_que
-{
-	t_rm			*room;
-	struct s_que	*next;
-	
-}					t_q;
+typedef struct	s_links	t_q;
 
 typedef	struct	s_room
 {

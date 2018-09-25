@@ -10,6 +10,11 @@ Kot 3 4
 F 4 4
 K 2 3
 D 5 6
+S 32 31
+P 12 56
+M 54 65
+W 4 65
+A 43 53
 Berton 13 0
 Kolya 23 1
 Maks 43 23
@@ -20,6 +25,14 @@ Vasya-D
 Maks-Berton
 Kolya-F
 F-K
+D-S
+D-F
+S-M
+M-W
+W-A
+K-P
+Kot-P
+P-Kot
 K-Donald
 Arnold-Vasya
 Maks-Donald

@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:06:06 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/24 11:49:39 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/24 15:47:34 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,15 @@ void				parsing(t_lm *lm)
 int		main(int ac, char **av)
 {
 	t_lm	lm;
-	// t_q		que;
 
 	dup2(open(av[1], O_RDONLY), 0);
 	ft_bzero(&lm, sizeof(lm));
-	// ft_bzero(&que, sizeof(que));
 	parsing(&lm);
 	algorithm(&lm);
-	print_map(&lm);
+	while (lm.start)
+	{
+		printf("==============\nRoom ->%s\nLen ->%3i\n", lm.start->name, lm.start->len);
+		lm.start = lm.start->next;
+	}
+	// print_map(&lm);
 }

@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 15:51:19 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/24 12:30:24 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/25 17:47:46 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,6 @@ static inline t_rm  *find_start(t_rm *start)
     }
     return (tmp);
 }
-
-// void	ft_lstdel(t_list **alst)
-// {
-// 	if (alst && *alst && del)
-// 	{
-// 		while (*alst)
-// 		{
-// 			free(*alst);
-// 			*alst = (*alst)->next;
-// 		}
-// 		*alst = NULL;
-// 	}
-// }
 
 static inline t_rm  *find_black_room(t_link *room)
 {
@@ -67,32 +54,34 @@ static inline t_rm  *find_end(t_rm *start)
     return (tmp);
 }
 
-static inline void  fill_len(t_rm *start)
+static inline void  fill_len(t_rm *start, t_q *que, t_lm *lm)
 {
-    t_rm            *tmp_start;
-    t_rm            *save;
-    int             len;
+	t_rm			*room;
+	t_rm			*iterator;
+	t_q				*start_que;
+	int             len;
 
-    len = 1;
-    tmp_start = find_start(start);
-    while (tmp_start)
-    {
-		if (find_black_room(tmp_start->link))
-            save = find_black_room(tmp_start->link);
-		else
-			break ;
-        while (tmp_start->link)
-        {
-            if ((tmp_start->link->room->len > len) || (tmp_start->link->room->len == -1))
-                tmp_start->link->room->len = len;
-            tmp_start->link = tmp_start->link->next;
-        }
-        len++;
-        tmp_start = save;
+	len = 1;
+	iterator = find_start(start);
+	start_que = que;
+	while (iterator)
+	{
+		len = iterator->len + 1;
+		while ((room = find_black_room(iterator->link)))
+		{
+			que->room = room;
+			room->len = len;
+			iterator->link = iterator->link->next;
+			que = que->next = malloc(sizeof(t_q));
+		}
+        iterator = start_que->room;
+		start_que = start_que->next;
     }
 }
 
 void				algorithm(t_lm *lm)
 {
-	fill_len(lm->start);
+	t_q				que;
+
+	fill_len(lm->start, &que, lm);
 }
