@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/25 17:48:02 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/26 22:45:30 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ typedef struct		s_links
 }					t_link;
 
 typedef struct	s_links	t_q;
+typedef struct	s_links	t_w;
 
 typedef	struct	s_room
 {
 	unsigned int	is_empty : 1;
 	unsigned int	is_start : 1;
 	unsigned int	is_end : 1;
+	unsigned int	used : 1;
 	int				x;
 	int				y;
 	int				len;
@@ -63,6 +65,7 @@ void			error_manager(int error);
 void			read_room(char *line, int *index, t_lm *lm);
 void			read_ants(char *line, t_lm *lm);
 void			read_link(char *line, t_lm *lm);
-void			algorithm(t_lm *lm);
+void			fill_len(t_q *que, t_lm *lm);
+t_w				*find_way(t_w *way, t_lm *lm);
 
 #endif

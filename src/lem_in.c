@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:06:06 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/24 15:47:34 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/26 23:15:56 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,38 @@ void				parsing(t_lm *lm)
 int		main(int ac, char **av)
 {
 	t_lm	lm;
+	t_q		que;
+	t_w		way;
+	t_w		*right_way[48];
+	int		i;
 
+	i = 0;
 	dup2(open(av[1], O_RDONLY), 0);
 	ft_bzero(&lm, sizeof(lm));
 	parsing(&lm);
-	algorithm(&lm);
-	while (lm.start)
-	{
-		printf("==============\nRoom ->%s\nLen ->%3i\n", lm.start->name, lm.start->len);
-		lm.start = lm.start->next;
-	}
+	fill_len(&que, &lm);
+	while (find_way(&way, &lm))
+		right_way[i++] = find_way(&way, &lm);
+
+		/*PRINT WAYS*/
+			// i = 0;
+			// while (right_way[i])
+			// {
+			// 	while (right_way[i])
+			// 	{
+			// 		printf("==============\nroom ---> %s\n", right_way[i]->room->name);
+			// 		right_way[i] = right_way[i]->next;
+			// 	}
+			// 	i++;
+			// }
+// КАКАЯ-ТО ХУЙНЯ, ПРОПАДАЕТ ЛИНК D-Vasya ПОСЛЕ РАССТАНОВКИ ДЛИНЫ, ФИКС ПЛЗ!!!
+	
+		/*PRINT LENS*/
+			// while (lm.start)
+			// {
+			// 	printf("==============\nRoom ->%s\nLen ->%3i\n", lm.start->name, lm.start->len);
+			// 	lm.start = lm.start->next;
+			// }
+			
 	// print_map(&lm);
 }
