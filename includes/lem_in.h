@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/26 22:45:30 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/27 21:32:37 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "libft.h"
 
 typedef	struct	s_room t_rm;
+typedef struct	s_links	t_q;
+typedef struct	s_links	t_w;
 
 typedef struct		s_links
 {
@@ -24,8 +26,12 @@ typedef struct		s_links
 	
 }					t_link;
 
-typedef struct	s_links	t_q;
-typedef struct	s_links	t_w;
+typedef struct				s_right_way
+{
+	t_w						*way;
+	struct s_right_way		*next;
+	
+}							t_path;
 
 typedef	struct	s_room
 {

@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 15:51:19 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/26 22:49:56 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/27 16:28:46 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,24 @@ static inline t_rm  *find_black_room(t_link *room)
 
 void                fill_len(t_q *que, t_lm *lm)
 {
+    t_link          *tmp_link;
 	t_rm			*black_room;
 	t_rm			*cur_room;
 	t_q				*start_que;
 	int             len;
 
-	len = 1;
 	cur_room = find_start(lm->start);
 	start_que = que;
 	while (cur_room)
 	{
 		len = cur_room->len + 1;
-		while ((black_room = find_black_room(cur_room->link)))
+        tmp_link = cur_room->link;
+		while (find_black_room(tmp_link))
 		{
+			black_room = find_black_room(tmp_link);
 			que->room = black_room;
 			black_room->len = len;
-			cur_room->link = cur_room->link->next;
+			tmp_link = tmp_link->next;
 			que = que->next = malloc(sizeof(t_q));
 		}
         cur_room = start_que->room;
@@ -110,6 +112,8 @@ t_w				*find_way(t_w *way, t_lm *lm)
 			return (NULL);
 		cur_room = right_way->room;
 		cur_room->used = 1;
+        if (cur_room->len == 0)
+            return (start_way);
 		right_way = right_way->next = malloc(sizeof(t_w));
 	}
 	return (start_way);

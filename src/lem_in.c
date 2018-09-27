@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:06:06 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/26 23:15:56 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/27 21:52:11 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int		main(int ac, char **av)
 	t_lm	lm;
 	t_q		que;
 	t_w		way;
-	t_w		*right_way[48];
+	t_path	*right_way;
+	t_path	*tmp;
 	int		i;
 
 	i = 0;
@@ -78,26 +79,28 @@ int		main(int ac, char **av)
 	ft_bzero(&lm, sizeof(lm));
 	parsing(&lm);
 	fill_len(&que, &lm);
-	while (find_way(&way, &lm))
-		right_way[i++] = find_way(&way, &lm);
+	right_way = ft_memalloc(sizeof(t_path));
+	tmp = right_way;
+	while ((right_way->way = find_way(&way, &lm)))
+		right_way = right_way->next = ft_memalloc(sizeof(t_path));
 
 		/*PRINT WAYS*/
-			// i = 0;
-			// while (right_way[i])
-			// {
-			// 	while (right_way[i])
-			// 	{
-			// 		printf("==============\nroom ---> %s\n", right_way[i]->room->name);
-			// 		right_way[i] = right_way[i]->next;
-			// 	}
-			// 	i++;
-			// }
-// КАКАЯ-ТО ХУЙНЯ, ПРОПАДАЕТ ЛИНК D-Vasya ПОСЛЕ РАССТАНОВКИ ДЛИНЫ, ФИКС ПЛЗ!!!
+			i = 0;
+			while (tmp)
+			{
+				write(1, "Way :\n", 6);
+				while (tmp->way)
+				{
+					printf("%s ---> ", tmp->way->room->name);
+					tmp->way = tmp->way->next;
+				}
+				tmp = tmp->next;
+			}
 	
 		/*PRINT LENS*/
 			// while (lm.start)
 			// {
-			// 	printf("==============\nRoom ->%s\nLen ->%3i\n", lm.start->name, lm.start->len);
+			// 	printf("==============\nRoom -> %s\nLen  -> %i\n", lm.start->name, lm.start->len);
 			// 	lm.start = lm.start->next;
 			// }
 			
