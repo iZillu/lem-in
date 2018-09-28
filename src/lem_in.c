@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:06:06 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/27 21:52:11 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/28 18:02:41 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		main(int ac, char **av)
 	t_q		que;
 	t_w		way;
 	t_path	*right_way;
-	t_path	*tmp;
+	// t_path	*tmp;
 	int		i;
 
 	i = 0;
@@ -80,22 +80,23 @@ int		main(int ac, char **av)
 	parsing(&lm);
 	fill_len(&que, &lm);
 	right_way = ft_memalloc(sizeof(t_path));
-	tmp = right_way;
+	// tmp = right_way;
 	while ((right_way->way = find_way(&way, &lm)))
 		right_way = right_way->next = ft_memalloc(sizeof(t_path));
 
-		/*PRINT WAYS*/
-			i = 0;
-			while (tmp)
-			{
-				write(1, "Way :\n", 6);
-				while (tmp->way)
-				{
-					printf("%s ---> ", tmp->way->room->name);
-					tmp->way = tmp->way->next;
-				}
-				tmp = tmp->next;
-			}
+	// 	/*PRINT WAYS*/
+			// i = 0;
+			// while (tmp)
+			// {
+			// 	printf("Way :\n");
+			// 	while (tmp->way)
+			// 	{
+			// 		printf("%s ---> ", tmp->way->room->name);
+			// 		tmp->way = tmp->way->prev;
+			// 	}
+			// 	printf("\n");
+			// 	tmp = tmp->next;
+			// }
 	
 		/*PRINT LENS*/
 			// while (lm.start)

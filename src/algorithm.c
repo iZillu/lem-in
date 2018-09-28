@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 15:51:19 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/27 16:28:46 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/28 17:59:58 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,14 @@ t_w				*find_way(t_w *way, t_lm *lm)
 {
     t_rm		*cur_room;
 	t_w			*right_way;
-	t_w			*start_way;
 
     cur_room = find_end(lm->start);
 	right_way = way;
-	start_way = right_way;
+	right_way->prev = NULL;
 	right_way->room = cur_room;
-	right_way = right_way->next = malloc(sizeof(t_w));
+	right_way->next = ft_memalloc(sizeof(t_w));
+	right_way->next->prev = right_way;
+	right_way = right_way->next;
 	while (cur_room)
 	{
 		if (!(right_way->room = find_prev_room(cur_room->link, cur_room->len)))
@@ -113,8 +114,17 @@ t_w				*find_way(t_w *way, t_lm *lm)
 		cur_room = right_way->room;
 		cur_room->used = 1;
         if (cur_room->len == 0)
-            return (start_way);
-		right_way = right_way->next = malloc(sizeof(t_w));
+            break ;
+		right_way->next = ft_memalloc(sizeof(t_w));
+        right_way->next->prev = right_way;
+		if (cur_room)
+			right_way = right_way->next;
 	}
-	return (start_way);
+    // write(1, "Way :\n", 6);
+	// 			while (right_way)
+	// 			{
+	// 				printf("%s ---> ", right_way->room->name);
+	// 				right_way = right_way->prev;
+	// 			}
+	return (right_way);
 }

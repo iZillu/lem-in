@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/27 21:32:37 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/28 13:15:37 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,14 @@
 
 typedef	struct	s_room t_rm;
 typedef struct	s_links	t_q;
-typedef struct	s_links	t_w;
+
+typedef struct		s_way
+{
+	t_rm			*room;
+	struct s_way	*next;
+	struct s_way	*prev;
+	
+}					t_w;
 
 typedef struct		s_links
 {
