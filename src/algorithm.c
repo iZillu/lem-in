@@ -6,125 +6,44 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 15:51:19 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/28 17:59:58 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:48:07 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static inline t_rm  *find_start(t_rm *start)
+static inline void	check_room_for_ant(t_w *way, int num)
 {
-    t_rm            *tmp;
-
-    tmp = start;
-    while (tmp)
-    {
-        if (tmp->is_start)
-            return (tmp);
-        tmp = tmp->next;
-    }
-    return (tmp);
-}
-
-static inline t_rm  *find_end(t_rm *start)
-{
-    t_rm            *tmp;
-
-    tmp = start;
-    while (tmp)
-    {
-        if (tmp->is_end)
-            return (tmp);
-        tmp = tmp->next;
-    }
-    return (tmp);
-}
-
-static inline t_rm  *find_black_room(t_link *room)
-{
-    t_link  *tmp;
-
-    tmp = room;
-    while (tmp)
-    {
-        if (tmp->room->len == -1)
-            return (tmp->room);
-        tmp = tmp->next;
-    }
-    return (NULL);
-}
-
-void                fill_len(t_q *que, t_lm *lm)
-{
-    t_link          *tmp_link;
-	t_rm			*black_room;
-	t_rm			*cur_room;
-	t_q				*start_que;
-	int             len;
-
-	cur_room = find_start(lm->start);
-	start_que = que;
-	while (cur_room)
-	{
-		len = cur_room->len + 1;
-        tmp_link = cur_room->link;
-		while (find_black_room(tmp_link))
+	if (!way->room->ant || way->room->is_end)
+		if (way->next && way->next->room->ant)
 		{
-			black_room = find_black_room(tmp_link);
-			que->room = black_room;
-			black_room->len = len;
-			tmp_link = tmp_link->next;
-			que = que->next = malloc(sizeof(t_q));
+			way->room->ant++;
+			way->next->room->ant--;
+			ft_printf("L%d-%s ", num, way->room->name);
 		}
-        cur_room = start_que->room;
-		start_que = start_que->next;
-    }
 }
 
-static inline t_rm	*find_prev_room(t_link *cur_room, int len)
+void            print_ants(t_lm *lm, t_w *way)
 {
-    t_link  *tmp;
+    t_w         *tmp;
+	t_rm		*end;
+    t_rm        *start;
 
-    tmp = cur_room;
-    while (tmp)
+	ft_printf("\n");
+    start = find_start(lm->start);
+    start->ant = lm->ant_amount;
+	start->num = 1;
+	end = find_end(lm->start);
+    while (end->ant < lm->ant_amount)
     {
-        if (tmp->room->len == (len - 1) && (!tmp->room->used))
-            return (tmp->room);
-        tmp = tmp->next;
+        tmp = way;
+        while (tmp)
+        {
+			if (tmp->next && tmp->next->room->ant)
+				tmp->room->num = tmp->next->room->num++;
+            check_room_for_ant(tmp, tmp->room->num);
+            tmp = tmp->next;
+        }
+        printf("\n");
     }
-    return (NULL);
-}
-
-t_w				*find_way(t_w *way, t_lm *lm)
-{
-    t_rm		*cur_room;
-	t_w			*right_way;
-
-    cur_room = find_end(lm->start);
-	right_way = way;
-	right_way->prev = NULL;
-	right_way->room = cur_room;
-	right_way->next = ft_memalloc(sizeof(t_w));
-	right_way->next->prev = right_way;
-	right_way = right_way->next;
-	while (cur_room)
-	{
-		if (!(right_way->room = find_prev_room(cur_room->link, cur_room->len)))
-			return (NULL);
-		cur_room = right_way->room;
-		cur_room->used = 1;
-        if (cur_room->len == 0)
-            break ;
-		right_way->next = ft_memalloc(sizeof(t_w));
-        right_way->next->prev = right_way;
-		if (cur_room)
-			right_way = right_way->next;
-	}
-    // write(1, "Way :\n", 6);
-	// 			while (right_way)
-	// 			{
-	// 				printf("%s ---> ", right_way->room->name);
-	// 				right_way = right_way->prev;
-	// 			}
-	return (right_way);
 }

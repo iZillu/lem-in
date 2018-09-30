@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 06:25:55 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/20 20:20:05 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/30 17:06:58 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,5 @@ void				read_ants(char *line, t_lm *lm)
 	|| !ft_isdigit(*line) || ant_num < 0)
 		error_manager(4);
 	lm->ant_amount = ant_num;
-	lm->head = ft_memalloc(ant_num);
 	free(line);
 }

@@ -4,7 +4,6 @@ Vlad -2 0
 ##end
 Donald 2 2
 Vasya 5 0
-##start
 Arnold 1 0
 Kot 3 4
 F 4 4
@@ -14,13 +13,16 @@ S 32 31
 P 12 56
 M 54 65
 W 4 65
+##start
 A 43 53
+Y 32 54
 Berton 13 0
 Kolya 23 1
 Maks 43 23
 Arnold-Vlad
 Vlad-Kolya
-Kolya-Maks
+Kolya-Y
+Y-Maks
 Vasya-D
 Maks-Berton
 Kolya-F

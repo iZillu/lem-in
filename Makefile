@@ -12,7 +12,7 @@ INC_PATH =	includes/
 IFLAGS =	-I $(LIB_PATH)$(INC_PATH) -I $(INC_PATH)
 
 HFILES =	lem_in
-FILES =		lem_in reading fill_links algorithm
+FILES =		lem_in reading fill_links algorithm fill_len find_way
 
 LIB =	$(LIB_PATH)libftprintf.a
 

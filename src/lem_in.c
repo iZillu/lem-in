@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:06:06 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/28 18:02:41 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:47:25 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,33 +70,27 @@ int		main(int ac, char **av)
 	t_lm	lm;
 	t_q		que;
 	t_w		way;
-	t_path	*right_way;
-	// t_path	*tmp;
-	int		i;
+	t_w		*right_way;
 
-	i = 0;
 	dup2(open(av[1], O_RDONLY), 0);
 	ft_bzero(&lm, sizeof(lm));
 	parsing(&lm);
+	right_way = ft_memalloc(sizeof(t_w));
 	fill_len(&que, &lm);
-	right_way = ft_memalloc(sizeof(t_path));
-	// tmp = right_way;
-	while ((right_way->way = find_way(&way, &lm)))
-		right_way = right_way->next = ft_memalloc(sizeof(t_path));
+	if (!(right_way = find_way(&way, &lm)))
+		error_manager(86);
+	print_map(&lm);
+	print_ants(&lm, right_way);
 
-	// 	/*PRINT WAYS*/
-			// i = 0;
-			// while (tmp)
+	 	/*PRINT WAYS*/
+			// printf("Way :\n");
+			// while (right_way)
 			// {
-			// 	printf("Way :\n");
-			// 	while (tmp->way)
-			// 	{
-			// 		printf("%s ---> ", tmp->way->room->name);
-			// 		tmp->way = tmp->way->prev;
-			// 	}
-			// 	printf("\n");
-			// 	tmp = tmp->next;
+			// 	printf("%s ---> ", right_way->room->name);
+			// 	right_way = right_way->prev;
 			// }
+			// 	printf(":D");
+			// 	printf("\n");
 	
 		/*PRINT LENS*/
 			// while (lm.start)
@@ -105,5 +99,4 @@ int		main(int ac, char **av)
 			// 	lm.start = lm.start->next;
 			// }
 			
-	// print_map(&lm);
 }
