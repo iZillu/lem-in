@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 15:51:19 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/30 18:48:07 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/10/16 21:39:47 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,27 @@ static inline void	check_room_for_ant(t_w *way, int num)
 		}
 }
 
-void            print_ants(t_lm *lm, t_w *way)
+void				print_ants(t_lm *lm, t_w *way)
 {
-    t_w         *tmp;
-	t_rm		*end;
-    t_rm        *start;
+	t_w				*tmp;
+	t_rm			*end;
+	t_rm			*start;
 
 	ft_printf("\n");
-    start = find_start(lm->start);
-    start->ant = lm->ant_amount;
+	start = find_start(lm->start);
+	start->ant = lm->ant_amount;
 	start->num = 1;
 	end = find_end(lm->start);
-    while (end->ant < lm->ant_amount)
-    {
-        tmp = way;
-        while (tmp)
-        {
+	while (end->ant < lm->ant_amount)
+	{
+		tmp = way;
+		while (tmp)
+		{
 			if (tmp->next && tmp->next->room->ant)
 				tmp->room->num = tmp->next->room->num++;
-            check_room_for_ant(tmp, tmp->room->num);
-            tmp = tmp->next;
-        }
-        printf("\n");
-    }
+			check_room_for_ant(tmp, tmp->room->num);
+			tmp = tmp->next;
+		}
+		ft_printf("\n");
+	}
 }

@@ -3,79 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmuravch <hmuravch@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 05:09:34 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/08/20 07:21:45 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/30 21:36:40 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void			main_thing(char **line, t_list *elem)
+static	ssize_t	find_n(const char *mas)
 {
-	char	*string;
-	char	*new;
+	ssize_t		i;
 
-	string = ft_strchr(elem->content, '\n');
-	if (string)
-	{
-		ft_strdel(line);
-		*line = ft_strsub(elem->content, 0, (string - (char*)elem->content));
-		new = ft_strsub(elem->content, string - (char*)elem->content + 1,
-			ft_strlen(string));
-		ft_memdel(&elem->content);
-		elem->content = new;
-	}
-	else
-	{
-		*line = ft_strdup(elem->content);
-		ft_memdel(&elem->content);
-	}
+	i = 0;
+	while (mas[i] && mas[i] != '\n')
+		i++;
+	return (i);
 }
 
-static t_list	*get_buffer(t_list **start, int fd)
+static	int		write_arr(char **arr, ssize_t *ret, const int fd, char *fr_arr)
 {
-	t_list	*tmp;
+	char		*buf;
 
-	tmp = *start;
-	while (tmp)
+	if (!(buf = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1))))
+		return (-1);
+	while ((*arr)[find_n(*arr)] != '\n' && (*ret = read(fd, buf, BUFF_SIZE)))
 	{
-		if ((int)tmp->content_size == fd)
-			return (tmp);
-		tmp = tmp->next;
+		if (*ret < 0)
+			return (-1);
+		buf[(*ret)] = '\0';
+		fr_arr = *arr;
+		if (!((*arr) = ft_strjoin(*arr, buf)))
+			return (-1);
+		free(fr_arr);
 	}
-	tmp = ft_lstnew("\0", fd);
-	ft_lstadd(start, tmp);
-	tmp = *start;
-	return (tmp);
+	free(buf);
+	return (0);
+}
+
+static	int		get_first_line(char **arr, char **line, ssize_t ret)
+{
+	ssize_t			i;
+	char			*free_old_arr;
+
+	free_old_arr = NULL;
+	i = find_n(*arr);
+	if ((*arr)[i] == '\n' || (i && !ret))
+	{
+		if (!((*line) = ft_strsub(*arr, 0, i)))
+			return (-1);
+		free_old_arr = *arr;
+		*arr = ft_strsub(*arr, (i + 1), (ft_strlen(*arr) - i));
+		free(free_old_arr);
+	}
+	else
+		return (0);
+	return (1);
+}
+
+static	int		make_new_fd(const int fd, t_gnl **poi, t_gnl *l)
+{
+	if (!((*poi) = (t_gnl *)malloc(sizeof(t_gnl))))
+		return (-1);
+	if (!((*poi)->arr = (char *)ft_memalloc(sizeof(char) * (BUFF_SIZE + 1))))
+	{
+		free(*poi);
+		return (-1);
+	}
+	(*poi)->fd = fd;
+	(*poi)->next = NULL;
+	while (l && l->next && fd != l->fd)
+		l = l->next;
+	if (l && !(l->next))
+		l->next = *poi;
+	return (0);
 }
 
 int				get_next_line(const int fd, char **line)
 {
-	t_list			*elem;
-	static t_list	*start;
-	char			buf[BUFF_SIZE + 1];
-	int				brain;
-	void			*tmp;
+	static	t_gnl	*l;
+	t_gnl			*poi;
+	char			*free_old_arr;
+	ssize_t			ret;
 
-	if ((fd < 0 || fd > 4864 || !line || BUFF_SIZE < 1 || read(fd, buf, 0) < 0))
+	if (fd < 0 || !line || BUFF_SIZE <= 0)
 		return (-1);
-	PROTECT((*line = ft_strnew(1)));
-	elem = get_buffer(&start, fd);
-	while ((brain = read(fd, buf, BUFF_SIZE)))
-	{
-		tmp = ft_strdup(elem->content);
-		buf[brain] = '\0';
-		ft_memdel(&elem->content);
-		elem->content = ft_strjoin(tmp, buf);
-		ft_memdel(&tmp);
-		if (ft_strchr(buf, '\n'))
-			break ;
-	}
-	if ((brain < BUFF_SIZE && !(char*)elem->content)
-		|| !ft_strlen(elem->content))
-		return (0);
-	main_thing(line, elem);
-	return (1);
+	free_old_arr = NULL;
+	if (!l && (make_new_fd(fd, &l, NULL) == -1))
+		return (-1);
+	poi = l;
+	while (poi && fd != poi->fd)
+		poi = poi->next;
+	if (!poi && (make_new_fd(fd, &poi, l) == -1))
+		return (-1);
+	if (write_arr(&(poi->arr), &ret, fd, free_old_arr) == -1)
+		return (-1);
+	return (get_first_line(&(poi->arr), line, ret));
 }

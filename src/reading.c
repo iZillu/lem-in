@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 06:25:55 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/30 17:06:58 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/30 21:03:12 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,33 @@ static inline void	check_validity_of_room(char *line, t_lm *lm, t_rm *cur)
 	while (tmp)
 	{
 		if (cur != tmp)
+		{
 			if (cur->name == tmp->name
 			|| (cur->x == tmp->x && cur->y == tmp->y))
 				error_manager(9);
+		}
 		tmp = tmp->next;
 	}
+}
+
+int					validate_coords(char *x, char *y)
+{
+	int				i;
+	int				j;
+
+	j = 1;
+	i = 1;
+	if (x[i] == '-')
+		i++;
+	if (y[j] == '-')
+		j++;
+	while (x[i] && x[i] != ' ')
+		if (!ft_isdigit(x[i++]))
+			return (0);
+	while (y[j])
+		if (!ft_isdigit(y[j++]))
+			return (0);
+	return (1);
 }
 
 void				read_room(char *line, int *index, t_lm *lm)
@@ -49,17 +71,17 @@ void				read_room(char *line, int *index, t_lm *lm)
 	char			*y;
 
 	*cur = ft_memalloc(sizeof(t_rm));
-	if (lm->start->link != NULL)
-		error_manager(23);
+	lm->start->link != NULL ? error_manager(23) : false;
 	x = ft_strchr(line, ' ');
 	if (x != NULL)
 		y = ft_strchr(x + 1, ' ');
-	if (x == NULL || y == NULL)
+	if (x == NULL || y == NULL || (!(validate_coords(x, y))))
 		error_manager(5);
 	(*cur)->name = line;
 	(*cur)->x = ft_atoi(x);
 	(*cur)->y = ft_atoi(y);
-	(*index == 1) ? ((*cur)->len = 0) : ((*cur)->len = -1);
+	(*index == 1) ? ((*cur)->len = 0) : false;
+	(*index != 1) ? ((*cur)->len = -1) : false;
 	check_validity_of_room(line, lm, *cur);
 	*x = '\0';
 	if ((ft_strlen((*cur)->name) + 2
@@ -92,15 +114,4 @@ int					read_hash(char *line)
 		return (2);
 	}
 	return (0);
-}
-
-void				read_ants(char *line, t_lm *lm)
-{
-	const int		ant_num = ft_atoi(line);
-
-	if (ft_strlen(line) != ft_strlen_int(ant_num)
-	|| !ft_isdigit(*line) || ant_num < 0)
-		error_manager(4);
-	lm->ant_amount = ant_num;
-	free(line);
 }

@@ -6,14 +6,14 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 18:28:36 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/15 07:15:26 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/10/17 05:51:15 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-#include "get_next_line.h"
+# include "get_next_line.h"
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -21,7 +21,6 @@
 # include <stdbool.h>
 # include <stdarg.h>
 # include <wchar.h>
-
 
 # define MIN_INT	(-9223372036854775807 - 1)
 
@@ -160,7 +159,8 @@ char				*ft_strstr(const char *haystack, const char *needle);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin_free(char *s1, char *s2, int first, int second);
-char				*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char				*ft_strnstr(const char *haystack, const char *needle,
+					size_t len);
 size_t				ft_atoi(const char *str);
 size_t				ft_strlen(const char *s);
 size_t				print_percent(t_sym *sym);

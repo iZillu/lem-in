@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 05:08:21 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/30 18:38:23 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/10/17 05:45:54 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,7 @@
 
 typedef	struct	s_room t_rm;
 typedef struct	s_links	t_q;
-
-
-typedef struct		s_way
-{
-	t_rm			*room;
-	struct s_way	*next;
-	struct s_way	*prev;
-	
-}					t_w;
+typedef struct	s_links	t_w;
 
 typedef struct		s_links
 {
@@ -56,12 +48,12 @@ typedef	struct	s_lem_in
 	int			error;
 	int			ant_amount;
 	int			rib_amount;
-	t_list		*map;
-	t_rm		*start;		//лист комнат
+	t_rm		*start;
 	
 }				t_lm;
 
 int				read_hash(char *line);
+int				check_end_start(t_lm *lm);
 void			print_ants(t_lm *lm, t_w *way);
 void			error_manager(int error);
 void			read_room(char *line, int *index, t_lm *lm);
@@ -70,6 +62,6 @@ void			read_link(char *line, t_lm *lm);
 void			fill_len(t_q *que, t_lm *lm);
 t_rm			*find_end(t_rm *start);
 t_rm			*find_start(t_rm *start);
-t_w				*find_way(t_w *way, t_lm *lm);
+t_w				*find_way(t_lm *lm);
 
 #endif

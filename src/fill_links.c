@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 06:25:50 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/20 20:19:46 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/09/30 21:44:38 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static inline t_link	**get_last_link(t_link **link, t_rm *to_check)
 {
-	t_link			*tmp;
+	t_link				*tmp;
 
 	if (*link == NULL)
 		return (link);
@@ -30,9 +30,9 @@ static inline t_link	**get_last_link(t_link **link, t_rm *to_check)
 	return (&tmp->next);
 }
 
-static inline t_rm	*find_room_by_name(char *to_find, t_rm *start)
+static inline t_rm		*find_room_by_name(char *to_find, t_rm *start)
 {
-	t_rm			*tmp;
+	t_rm				*tmp;
 
 	tmp = start;
 	while (tmp)
@@ -45,12 +45,12 @@ static inline t_rm	*find_room_by_name(char *to_find, t_rm *start)
 	return (NULL);
 }
 
-void				read_link(char *line, t_lm *lm)
+void					read_link(char *line, t_lm *lm)
 {
-	char *const		n1 = line;
-	char *const		n2 = ft_strchr(line, '-') + 1;
-	t_rm 			*room[2];
-	t_link 			**link[2];
+	char *const			n1 = line;
+	char *const			n2 = ft_strchr(line, '-') + 1;
+	t_rm				*room[2];
+	t_link				**link[2];
 
 	*(n2 - 1) = '\0';
 	if (ft_strequ(n1, n2))
@@ -60,10 +60,14 @@ void				read_link(char *line, t_lm *lm)
 	link[0] = get_last_link(&room[0]->link, room[1]);
 	link[1] = get_last_link(&room[1]->link, room[0]);
 	if (link[0] == NULL || link[1] == NULL)
+	{
+		free(line);
 		return ;
+	}
 	*link[0] = ft_memalloc(sizeof(t_link));
 	*link[1] = ft_memalloc(sizeof(t_link));
 	(*link[0])->room = room[1];
 	(*link[1])->room = room[0];
 	lm->rib_amount++;
+	free(line);
 }

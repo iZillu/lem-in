@@ -6,16 +6,23 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 05:09:41 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/19 12:28:13 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/10/17 05:39:56 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 1
+# include <sys/types.h>
+# include <sys/uio.h>
+# define BUFF_SIZE 128
 
-# define PROTECT(x) if (!x) return (-1)
+typedef	struct		s_gnl
+{
+	char			*arr;
+	int				fd;
+	struct s_gnl	*next;
+}					t_gnl;
 
-int		get_next_line(const int fd, char **line);
+int					get_next_line(const int fd, char **line);
 
 #endif
