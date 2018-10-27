@@ -6,7 +6,7 @@
 /*   By: hmuravch <hmuravch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 06:25:50 by hmuravch          #+#    #+#             */
-/*   Updated: 2018/09/30 21:44:38 by hmuravch         ###   ########.fr       */
+/*   Updated: 2018/10/17 15:42:58 by hmuravch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static inline t_rm		*find_room_by_name(char *to_find, t_rm *start)
 			return (tmp);
 		tmp = tmp->next;
 	}
-	error_manager(12);
+	error_manager(11);
 	return (NULL);
 }
 
